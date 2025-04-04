@@ -1,3 +1,3 @@
-# TicketingServer
+# TicketingServer 를 만들어볼래요
 Ticketing server design considerations
 writing...
