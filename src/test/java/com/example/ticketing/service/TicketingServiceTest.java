@@ -24,7 +24,7 @@ class TicketingServiceTest {
 
 	@Test
 	public void OnceTicket(){
-		ticketingService.apply_v3(1L);
+		ticketingService.apply_v4(1L);
 		long count= ticketRepository.count();
 		assertThat(count).isEqualTo(1);
 	}
@@ -39,7 +39,7 @@ class TicketingServiceTest {
 			long userId=i;
 			executorService.submit(()->{
 				try{
-					ticketingService.apply_v3(userId);
+					ticketingService.apply_v4(userId);
 				}finally {
 					latch.countDown();
 				}

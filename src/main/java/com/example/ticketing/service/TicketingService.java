@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ticketing.domain.Ticket;
 import com.example.ticketing.producer.TicketCreateProducer;
+import com.example.ticketing.repository.AppliedUserRepository;
 import com.example.ticketing.repository.TicketCountRepository;
 import com.example.ticketing.repository.TicketRepository;
 
@@ -16,6 +17,7 @@ public class TicketingService {
 	private final TicketRepository ticketRepository;
 	private final TicketCountRepository ticketCountRepository;
 	private final TicketCreateProducer ticketCreateProducer;
+	private final AppliedUserRepository appliedUserRepository;
 
 	/**
 	 * 레이스 컨디션 발생 : 두 개 이상의 스레드에서 공유 데이터의 액세스를 할 때 발생하는 문제
@@ -53,6 +55,19 @@ public class TicketingService {
 	}
 
 	public void apply_v3(Long userId){
+		Long count= ticketCountRepository.increment();
+		if(count>100){
+			return;
+		}
+		ticketCreateProducer.create(userId);
+
+	}
+	public void apply_v4(Long userId){
+		Long apply= appliedUserRepository.add(userId);
+		if(apply!=1){
+			return;
+		}
+
 		Long count= ticketCountRepository.increment();
 		if(count>100){
 			return;
